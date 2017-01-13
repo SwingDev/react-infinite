@@ -39,6 +39,7 @@ var Infinite = React.createClass({
     // of
     containerHeight: React.PropTypes.number,
     useWindowAsScrollContainer: React.PropTypes.bool,
+    customScrollContainer: React.PropTypes.node,
 
     displayBottomUpwards: React.PropTypes.bool.isRequired,
 
@@ -88,6 +89,7 @@ var Infinite = React.createClass({
       },
 
       useWindowAsScrollContainer: false,
+      customScrollContainer: false,
 
       onInfiniteLoad: () => {
       },
@@ -129,8 +131,9 @@ var Infinite = React.createClass({
 
     var newProps = {};
     containerHeight = typeof containerHeight === 'number' ? containerHeight : 0;
-    newProps.containerHeight = props.useWindowAsScrollContainer
-      ? window.innerHeight : containerHeight;
+    const elem = (props.customScrollContainer || window)
+    newProps.containerHeight = (props.useWindowAsScrollContainer || props.customScrollContainer)
+      ? elem.innerHeight : containerHeight;
 
     if (oldProps.infiniteLoadBeginBottomOffset !== undefined) {
       newProps.infiniteLoadBeginEdgeOffset = oldProps.infiniteLoadBeginBottomOffset;
@@ -186,17 +189,18 @@ var Infinite = React.createClass({
       }
       return loadingSpinnerHeight;
     };
-    if (props.useWindowAsScrollContainer) {
+    const elem = (props.customScrollContainer||window)
+    if (props.useWindowAsScrollContainer || props.customScrollContainer) {
       utilities.subscribeToScrollListener = () => {
-        window.addEventListener('scroll', this.infiniteHandleScroll);
+        elem.addEventListener('scroll', this.infiniteHandleScroll);
       };
       utilities.unsubscribeFromScrollListener = () => {
-        window.removeEventListener('scroll', this.infiniteHandleScroll);
+        elem.removeEventListener('scroll', this.infiniteHandleScroll);
       };
       utilities.nodeScrollListener = () => {};
-      utilities.getScrollTop = () => window.pageYOffset;
+      utilities.getScrollTop = () => elem.pageYOffset;
       utilities.setScrollTop = (top) => {
-        window.scroll(window.pageXOffset, top);
+        elem.scroll(elem.pageXOffset, top);
       };
       utilities.scrollShouldBeIgnored = () => false;
       utilities.buildScrollableStyle = () => ({});
