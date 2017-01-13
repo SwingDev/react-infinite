@@ -133,7 +133,7 @@ var Infinite = React.createClass({
     containerHeight = typeof containerHeight === 'number' ? containerHeight : 0;
     const elem = (props.customScrollContainer || window)
     newProps.containerHeight = (props.useWindowAsScrollContainer || props.customScrollContainer)
-      ? elem.innerHeight : containerHeight;
+      ? elem.innerHeight || elem.clientHeight : containerHeight;
 
     if (oldProps.infiniteLoadBeginBottomOffset !== undefined) {
       newProps.infiniteLoadBeginEdgeOffset = oldProps.infiniteLoadBeginBottomOffset;
@@ -198,9 +198,9 @@ var Infinite = React.createClass({
         elem.removeEventListener('scroll', this.infiniteHandleScroll);
       };
       utilities.nodeScrollListener = () => {};
-      utilities.getScrollTop = () => elem.pageYOffset;
+      utilities.getScrollTop = () => elem.scrollTop;
       utilities.setScrollTop = (top) => {
-        elem.scroll(elem.pageXOffset, top);
+        elem.scroll(elem.scrollLeft, top);
       };
       utilities.scrollShouldBeIgnored = () => false;
       utilities.buildScrollableStyle = () => ({});
