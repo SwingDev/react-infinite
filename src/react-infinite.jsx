@@ -39,7 +39,7 @@ var Infinite = React.createClass({
     // of
     containerHeight: React.PropTypes.number,
     useWindowAsScrollContainer: React.PropTypes.bool,
-    customScrollContainer: React.PropTypes.element,
+    customScrollContainer: React.PropTypes.any,
 
     displayBottomUpwards: React.PropTypes.bool.isRequired,
 
