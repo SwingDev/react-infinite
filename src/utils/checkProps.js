@@ -7,7 +7,7 @@ var _isFinite = require('lodash.isfinite');
 
 module.exports = function(props) {
   var rie = 'Invariant Violation: ';
-  if (!(props.containerHeight || props.useWindowAsScrollContainer)) {
+  if (!(props.containerHeight || props.useWindowAsScrollContainer || props.customScrollContainer)) {
     throw new Error(rie + 'Either containerHeight or useWindowAsScrollContainer must be provided.');
   }
 
